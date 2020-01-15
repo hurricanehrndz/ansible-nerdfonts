@@ -20,30 +20,6 @@
   tags:
     - nerdfonts
 
-# INSTALLER IS BROKEN
-#- name: '[Debian] Install nerdfonts system-wide'
-#  command: "/tmp/nerd_fonts/install.sh -S {{ item.value.fontname }}"
-#  with_items: "{{ nerdfonts_fonts }}"
-#  when:
-#   - nerdfonts_deb_env is defined
-#   - nerdfonts_deb_env  == 'system'
-#  tags:
-#    - nerdfonts
-#
-#- name: '[Debian] Install nerdfonts for each user'
-#  command: "/tmp/nerd_fonts/install.sh -U {{ item[0].value.fontname }}"
-#  become: yes
-#  become_user: "{{ item[1] }}"
-#  with_nested:
-#    - "{{ nerdfonts_fonts }}"
-#    - "{{ nerdfonts_users }}"
-#  when:
-#    - nerdfonts_deb_env is defined
-#    - nerdfonts_deb_env == 'user' or nerdfonts_deb_env == 'users'
-#  tags:
-#    - nerdfonts
-
-#===================== FIX ========================
 - name: '[Debian] Setting nerdfonts_install_dir for system-wide installation'
   set_fact:
     nerdfonts_install_dir: "{{ nerdfonts_deb_fonts_sys_dir }}"
