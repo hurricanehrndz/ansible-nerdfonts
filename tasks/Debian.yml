@@ -52,12 +52,17 @@
   tags:
     - nerdfonts
 
+- name: '[Debian] Define nerdfonts_install_cmd'
+  set_fact:
+    nerdfonts_install_cmd: "rsync -av --exclude='*[Ww]indows*' --exclude='*.md'{% if not nerdfonts_mono %} --exclude='*Mono.ttf'{% endif %}"
+  tags:
+    - nerdfonts
+
 - name: "[Debian] Install NerdFont -  {{ item.key }}"
-  command: "cp -r /tmp/nerd_fonts/patched-fonts/{{ item.key }} {{ nerdfonts_install_dir }}/NerdFonts/"
+  command: "{{ nerdfonts_install_cmd }} /tmp/nerd_fonts/patched-fonts/{{ item.key }} {{ nerdfonts_install_dir }}"
   with_dict: "{{ nerdfonts_exists }}"
   become: yes
   become_user: "{{ item }}"
-  become_method: su
   when:
     - not item.value
   tags:
@@ -70,5 +75,4 @@
   when: false in nerdfonts_exists.values()
   tags:
     - nerdfonts
-#==================================================
 ...
