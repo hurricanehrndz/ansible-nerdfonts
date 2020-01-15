@@ -87,7 +87,7 @@
   command: "cp -r /tmp/nerd_fonts/patched-fonts/{{ item.key }} {{ nerdfonts_install_dir }}/NerdFonts/"
   become: yes
   with_dict: "{{ nerdfonts_exists }}"
-  when: item.value == false
+  when: not item.value
   tags:
     - nerdfonts
 
@@ -100,7 +100,7 @@
   when:
     - nerdfonts_deb_env is defined
     - nerdfonts_deb_env == 'user' or nerdfonts_deb_env == 'users'
-    - item.value == false
+    - not item.value
   tags:
     - nerdfonts
 
