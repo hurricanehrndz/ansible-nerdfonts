@@ -1,0 +1,59 @@
+---
+- name: Define nerdfonts_install_dir_prefix
+  set_fact:
+    nerdfonts_install_dir_prefix: "{% if nerdfonts_user == 'root' %}/usr/{% else %}~/.{% endif %}"
+
+- name: '[Debian] Setting nerdfonts_install_dir for system-wide installation'
+  set_fact:
+    nerdfonts_install_dir: "{{ nerdfonts_install_dir_prefix }}local/share/fonts/NerdFonts"
+  tags:
+    - nerdfonts
+
+- name: '[Debian] Create NerdFonts folder for installation'
+  file:
+    path: "{{ nerdfonts_install_dir }}"
+    state: directory
+  become: yes
+  become_user: "{{ nerdfonts_user }}"
+  tags:
+    - nerdfonts
+
+- name: '[Debian] Check if there are any NerdFonts already installed'
+  stat:
+    path: "{{ nerdfonts_install_dir }}/{{ item.fontname }}"
+  with_items: "{{ nerdfonts_fonts }}"
+  register: nerdfonts_stat
+  tags:
+    - nerdfonts
+
+- name: '[Debian] Define nerdfonts_exists - list of fontname and install status'
+  set_fact:
+    nerdfonts_exists: "{{ nerdfonts_exists|default([])|union([{'fontname': item.item.fontname, 'installed': item.stat.exists}]) }}"
+  with_items: "{{ nerdfonts_stat.results }}"
+  tags:
+    - nerdfonts
+
+- name: '[Debian] Define nerdfonts_install_cmd'
+  set_fact:
+    nerdfonts_install_cmd: "rsync -av --exclude='*[Ww]indows*' --exclude='*.md'{% if not nerdfonts_mono %} --exclude='*Mono.ttf'{% endif %}"
+  tags:
+    - nerdfonts
+
+- name: "[Debian] Install NerdFonts"
+  command: "{{ nerdfonts_install_cmd }} /tmp/nerd_fonts/patched-fonts/{{ item.fontname }} {{ nerdfonts_install_dir }}"
+  become: yes
+  become_user: "{{ nerdfonts_user  }}"
+  register: nerdfonts_installation
+  when:
+    - not item.installed
+  with_items:
+    - "{{ nerdfonts_exists }}"
+  tags:
+    - nerdfonts
+
+- name: '[Debian] Update font cache'
+  command: "fc-cache -f {{ nerdfonts_install_dir }}"
+  when: nerdfonts_installation.changed
+  tags:
+    - nerdfonts
+...

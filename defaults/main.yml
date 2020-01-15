@@ -10,9 +10,6 @@ nerdfonts_mono: no  # yes | no -- install mono variant of the font from homebrew
 
 nerdfonts_users: [ root ]
 
-nerdfonts_deb_env: 'system'  # 'system' | 'user' | users'
-nerdfonts_deb_fonts_dir: "{% if nerdfonts_deb_env == 'system' %}/usr/local/share/fonts{% else %}~/.local/share/fonts{% endif %}"
-
 nerdfonts_fonts:
 #  - fontname: '3270'
 #    caskname: 'font-3270-nerd-font'
