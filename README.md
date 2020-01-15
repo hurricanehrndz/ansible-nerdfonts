@@ -10,22 +10,29 @@ Requirements
 ------------
 
 One of the following OS (or deriviatives):
- - Debian | Ubuntu
- - MacOS (with [Homebrew][homebrew])
+
+- Debian | Ubuntu
+- MacOS (with [Homebrew][homebrew])
 
 NOTE:
- - Role requires Fact Gathering by ansible!
- - On MacOS only user-specific installation from Homebrew is available
+
+- Role requires Fact Gathering by ansible!
+- On MacOS only user-specific installation from Homebrew is available
 
 For MacOS:
-if Homebrew is not installed on the managed host, install the following role via galaxy:
+if Homebrew is not installed on the managed host, install the following role via
+galaxy:
 
-    ansible-galaxy install drew-kun.homebrew
+```sh
+ansible-galaxy install drew-kun.homebrew
+```
 
- And include it in the playbook:
+And include it in the playbook:
 
+```yaml
     roles:
         - drew-kun.homebrew
+```
 
 Role Variables
 --------------
