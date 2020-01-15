@@ -7,11 +7,6 @@
     - nerdfonts
     - nerdfonts_dependencies
 
-- name: '[Debian] Include Debian-specific variables'
-  include_vars: Debian.yml
-  tags:
-    - nerdfonts
-
 - name: '[Debian] Clone the nerdfonts repo'
   git:
     repo: https://github.com/ryanoasis/nerd-fonts.git
