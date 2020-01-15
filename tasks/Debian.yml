@@ -17,49 +17,23 @@
 
 - name: '[Debian] Setting nerdfonts_install_dir for system-wide installation'
   set_fact:
-    nerdfonts_install_dir: "{{ nerdfonts_deb_fonts_sys_dir }}"
-  when:
-    - nerdfonts_deb_env is defined
-    - nerdfonts_deb_env  == 'system'
+    nerdfonts_install_dir: "{{ nerdfonts_deb_fonts_dir }}/NerdFonts"
   tags:
     - nerdfonts
 
-- name: '[Debian] Setting nerdfonts_install_dir for user-specific installation'
-  set_fact:
-    nerdfonts_install_dir: "{{ nerdfonts_deb_fonts_user_dir }}"
-  when:
-    - nerdfonts_deb_env is defined
-    - nerdfonts_deb_env == 'user' or nerdfonts_deb_env == 'users'
-  tags:
-    - nerdfonts
-
-- name: '[Debian] Create NerdFonts folder for system-wode installation'
+- name: '[Debian] Create NerdFonts folder for installation'
   file:
-    path: "{{ nerdfonts_install_dir }}/NerdFonts"
-    state: directory
-  when:
-    - nerdfonts_deb_env is defined
-    - nerdfonts_deb_env == 'system'
-  tags:
-    - nerdfonts
-
-- name: '[Debian] Create NerdFonts folder for each user'
-  file:
-    path: "{{ nerdfonts_install_dir }}/NerdFonts"
+    path: "{{ nerdfonts_install_dir }}"
     state: directory
   with_items: "{{ nerdfonts_users }}"
   become: yes
   become_user: "{{ item }}"
-  become_method: su
-  when:
-    - nerdfonts_deb_env is defined
-    - nerdfonts_deb_env == 'user' or nerdfonts_deb_env == 'users'
   tags:
     - nerdfonts
 
 - name: '[Debian] Check if there are any NerdFonts already installed'
   stat:
-    path: "{{ nerdfonts_install_dir }}/NerdFonts/{{ item.fontname }}"
+    path: "{{ nerdfonts_install_dir }}/{{ item.fontname }}"
   with_items: "{{ nerdfonts_fonts }}"
   register: nerdfonts_stat
   tags:
@@ -78,23 +52,13 @@
   tags:
     - nerdfonts
 
-- name: '[Debian] Copy fonts for system-wide installation'
-  command: "cp -r /tmp/nerd_fonts/patched-fonts/{{ item.key }} {{ nerdfonts_install_dir }}/NerdFonts/"
-  become: yes
-  with_dict: "{{ nerdfonts_exists }}"
-  when: not item.value
-  tags:
-    - nerdfonts
-
-- name: '[Debian] Copy fonts for user-specific installation'
+- name: "[Debian] Install NerdFont -  {{ item.key }}"
   command: "cp -r /tmp/nerd_fonts/patched-fonts/{{ item.key }} {{ nerdfonts_install_dir }}/NerdFonts/"
   with_dict: "{{ nerdfonts_exists }}"
   become: yes
   become_user: "{{ item }}"
   become_method: su
   when:
-    - nerdfonts_deb_env is defined
-    - nerdfonts_deb_env == 'user' or nerdfonts_deb_env == 'users'
     - not item.value
   tags:
     - nerdfonts
