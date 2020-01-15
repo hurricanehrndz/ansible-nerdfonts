@@ -9,6 +9,7 @@
 nerdfonts_mono: no  # yes | no -- install mono variant of the font from homebrew cask on MacOS.
 
 nerdfonts_users: [ root ]
+nerdfonts_git_dest: "/tmp/nerd_fonts"
 
 nerdfonts_fonts:
 #  - fontname: '3270'

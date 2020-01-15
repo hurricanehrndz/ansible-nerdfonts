@@ -10,7 +10,7 @@
 - name: '[Debian] Clone the nerdfonts repo'
   git:
     repo: https://github.com/ryanoasis/nerd-fonts.git
-    dest: /tmp/nerd_fonts
+    dest: "{{ nerdfonts_git_dest }}"
     depth: 1
     version: master
   tags:
