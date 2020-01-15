@@ -22,4 +22,9 @@
   loop: "{{ nerdfonts_users }}"
   loop_control:
     loop_var: nerdfonts_user
+
+- name: '[Debian] Remove nerdfonts repo'
+  file:
+    path: "{{ nerdfonts_git_dest }}"
+    state: absent
 ...
