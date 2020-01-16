@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   role_name: nerdfonts
-  author: Andrew Shagayev
+  author: Carlos Hernandez
   description: The role installs nerdfonts (http://nerdfonts.com/)
 
   license: MIT
@@ -11,9 +11,6 @@ galaxy_info:
   github_branch: master
 
   platforms:
-   - name: MacOSX
-     versions:
-       - all
    - name: Debian
      versions:
        - jessie
@@ -24,8 +21,6 @@ galaxy_info:
   galaxy_tags:
     - nerdfonts
     - debian
-    - macos
-    - osx
 
 dependencies: []
 ...
