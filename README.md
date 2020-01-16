@@ -60,7 +60,7 @@ Author Information
 
 Carlos Hernandez | [e-mail](mailto:hurricanehrndz@techbyte.ca)
 
-[role-badge]: https://img.shields.io/badge/role-drew--kun.nerdfonts-green.svg
+[role-badge]: https://img.shields.io/ansible/role/d/45889?style=for-the-badge
 [galaxy-link]: https://galaxy.ansible.com/hurricanehrndz/nerdfonts/
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge
 [mit-link]: https://raw.githubusercontent.com/hurricanehrndz/ansible-nerdfonts/master/LICENSE
