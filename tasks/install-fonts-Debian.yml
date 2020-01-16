@@ -21,6 +21,8 @@
 - name: '[Debian] Check if there are any NerdFonts already installed'
   stat:
     path: "{{ nerdfonts_install_dir }}/{{ item.fontname }}"
+  become: yes
+  become_user: "{{ nerdfonts_user }}"
   with_items: "{{ nerdfonts_fonts }}"
   register: nerdfonts_stat
   tags:
