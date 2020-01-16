@@ -60,16 +60,11 @@
   become: yes
   become_user: "{{ nerdfonts_user  }}"
   register: nerdfonts_installation
+  notify: '[Debian] Update font cache'
   when:
     - not item.installed
   with_items:
     - "{{ nerdfonts_exists }}"
-  tags:
-    - nerdfonts
-
-- name: '[Debian] Update font cache'
-  command: "fc-cache -f {{ nerdfonts_install_dir }}"
-  when: nerdfonts_installation.changed
   tags:
     - nerdfonts
 ...

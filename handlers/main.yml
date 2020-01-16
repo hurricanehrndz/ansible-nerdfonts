@@ -1,0 +1,5 @@
+---
+- name: '[Debian] Update font cache'
+  command: "fc-cache -f {{ nerdfonts_install_dir }}"
+  tags:
+    - nerdfonts
