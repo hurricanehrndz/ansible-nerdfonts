@@ -1,7 +1,14 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    nerdfonts_users: [ root, testuser ]
   tasks:
+    - name: Add testuser
+      user:
+        name: testuser
+        shell: /bin/bash
+
     - name: Run role
       include_role:
         name: ansible-nerdfonts
