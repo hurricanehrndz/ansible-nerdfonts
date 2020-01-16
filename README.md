@@ -1,8 +1,9 @@
 Ansible role: nerdfonts
 =========
 
-[![MIT licensed][mit-badge]][mit-link]
+[![Build Status][travis-badge]][travis-link]
 [![Galaxy Role][role-badge]][galaxy-link]
+[![MIT licensed][mit-badge]][mit-link]
 
 Cross-platform ansible role for [NerdFonts][nerdfonts] ([on GitHub][nf-git]) installation.
 
@@ -39,24 +40,16 @@ Role Variables
 
 OS-Agnostic:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
+| Variable              | Description                       | Default                                      |
+|-----------------------|-----------------------------------|----------------------------------------------|
 | **nerdfonts_fonts[]** | List of nerdfonts to be installed | see [`defaults/main.yml`](defaults/main.yml) |
+| **nerdfonts_mono**    | Install mono font variation       | `no`                                         |
 
 Debian-Specific:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| **nerdfonts_env** | Install fonts system- or user-wide | `system` |
-| **nerdfonts_deb_fonts_sys_dir** | System-wide fonts directory | `/usr/local/share/fonts` |
-| **nerdfonts_deb_fonts_user_dir** | User-specific fonts directory | `~/.local/share/fonts` |
-| **nerdfonts_users[]** | List of users nerdfonts to be installed | see [`vars/Debian.yml`](vars/Debian.yml) |
-
-MacOS-Specific:
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| **nerdfonts_mono** | Install mono font from homebrew cask | `no` |
+| Variable              | Description                             | Default                                      |
+|-----------------------|-----------------------------------------|----------------------------------------------|
+| **nerdfonts_users[]** | List of users nerdfonts to be installed | see [`defaults/main.yml`](defaults/main.yml) |
 
 Dependencies
 ------------
@@ -67,11 +60,18 @@ Example Playbook
 ----------------
 
 ```yaml
-- hosts: dev_clients_macos
-  gather_facts: yes
-  roles:
-  - drew-kun.homebrew
-  - drew-kun.nerdfonts
+- hosts: all
+  vars:
+    nerdfonts_users: [ root, testuser ]
+  tasks:
+    - name: Add testuser
+      user:
+        name: testuser
+        shell: /bin/bash
+
+    - name: Install nerdfonts
+      include_role:
+        name: ansible-nerdfonts
 ```
 
 License
@@ -85,9 +85,11 @@ Author Information
 Andrew Shagayev | [e-mail](mailto:drewshg@gmail.com)
 
 [role-badge]: https://img.shields.io/badge/role-drew--kun.nerdfonts-green.svg
-[galaxy-link]: https://galaxy.ansible.com/drew-kun/nerdfonts/
-[mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[mit-link]: https://raw.githubusercontent.com/drew-kun/ansible-nerdfonts/master/LICENSE
+[galaxy-link]: https://galaxy.ansible.com/hurricanehrndz/nerdfonts/
+[mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge
+[mit-link]: https://raw.githubusercontent.com/hurricanehrndz/ansible-nerdfonts/master/LICENSE
 [homebrew]: http://brew.sh/
 [nerdfonts]: https://nerdfonts.com/
 [nf-git]: https://github.com/ryanoasis/nerd-fonts
+[travis-badge]: https://img.shields.io/travis/hurricanehrndz/ansible-nerdfonts/master.svg?style=for-the-badge&logo=travis
+[travis-link]: https://travis-ci.org/hurricanehrndz/ansible-nerdfonts
