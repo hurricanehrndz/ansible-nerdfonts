@@ -17,6 +17,9 @@ galaxy_info:
    - name: Debian
      versions:
        - jessie
+   - name: Ubuntu
+     versions:
+       - bionic
 
   galaxy_tags:
     - nerdfonts
