@@ -33,9 +33,25 @@
   tags:
     - nerdfonts
 
+- name: '[Debian] Define nerdfonts_install_status'
+  set_fact:
+    nerdfonts_install_statuses: "{{ nerdfonts_exists|map(attribute='installed')|list }}"
+
 - name: '[Debian] Define nerdfonts_install_cmd'
   set_fact:
-    nerdfonts_install_cmd: "rsync -av --exclude='*[Ww]indows*' --exclude='*.md'{% if not nerdfonts_mono %} --exclude='*Mono.ttf'{% endif %}"
+    nerdfonts_install_cmd: "rsync -av --no-owner --exclude='*[Ww]indows*' --exclude='*.md'{% if not nerdfonts_mono %} --exclude='*Mono.ttf'{% endif %}"
+  tags:
+    - nerdfonts
+
+- name: '[Debian] Clone the nerdfonts repo'
+  git:
+    repo: https://github.com/ryanoasis/nerd-fonts.git
+    dest: "{{ nerdfonts_git_dest }}"
+    depth: 1
+    version: master
+  when: false in nerdfonts_install_statuses
+  become: yes
+  become_user: root
   tags:
     - nerdfonts
 

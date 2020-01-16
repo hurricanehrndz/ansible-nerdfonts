@@ -7,15 +7,6 @@
     - nerdfonts
     - nerdfonts_dependencies
 
-- name: '[Debian] Clone the nerdfonts repo'
-  git:
-    repo: https://github.com/ryanoasis/nerd-fonts.git
-    dest: "{{ nerdfonts_git_dest }}"
-    depth: 1
-    version: master
-  tags:
-    - nerdfonts
-
 # include tasks to loop
 - name: '[Debian] Install fonts for nerdfonts_users'
   include_tasks: "install-fonts-Debian.yml"
