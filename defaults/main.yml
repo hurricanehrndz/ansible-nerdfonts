@@ -2,6 +2,7 @@
 # defaults file for ansible-nerdfonts
 nerdfonts_users: [ root ]
 nerdfonts_git_dest: "/tmp/nerd_fonts"
+nerdfonts_mono: no  # yes | no -- install mono variant of the font
 
 nerdfonts_fonts:
 #  - fontname: '3270'
