@@ -1,51 +1,41 @@
 ---
-- name: Define nerdfonts_install_dir_prefix
+- name: '[Linux] Define nerdfonts_install_dir_prefix'
   set_fact:
     nerdfonts_install_dir_prefix: "{% if nerdfonts_user == 'root' %}/usr/{% else %}~/.{% endif %}"
 
-- name: '[Debian] Setting nerdfonts_install_dir for system-wide installation'
+- name: '[Linux] Setting nerdfonts_install_dir for system-wide installation'
   set_fact:
     nerdfonts_install_dir: "{{ nerdfonts_install_dir_prefix }}local/share/fonts/NerdFonts"
-  tags:
-    - nerdfonts
 
-- name: '[Debian] Create NerdFonts folder for installation'
+- name: '[Linux] Create NerdFonts folder for installation'
   file:
     path: "{{ nerdfonts_install_dir }}"
     state: directory
   become: yes
   become_user: "{{ nerdfonts_user }}"
-  tags:
-    - nerdfonts
 
-- name: '[Debian] Check if there are any NerdFonts already installed'
+- name: '[Linux] Check if there are any NerdFonts already installed'
   stat:
     path: "{{ nerdfonts_install_dir }}/{{ item.fontname }}"
   become: yes
   become_user: "{{ nerdfonts_user }}"
   with_items: "{{ nerdfonts_fonts }}"
   register: nerdfonts_stat
-  tags:
-    - nerdfonts
 
-- name: '[Debian] Define nerdfonts_exists - list of fontname and install status'
+- name: '[Linux] Define nerdfonts_exists - list of fontname and install status'
   set_fact:
     nerdfonts_exists: "{{ nerdfonts_exists|default([])|union([{'fontname': item.item.fontname, 'installed': item.stat.exists}]) }}"
   with_items: "{{ nerdfonts_stat.results }}"
-  tags:
-    - nerdfonts
 
-- name: '[Debian] Define nerdfonts_install_status'
+- name: '[Linux] Define nerdfonts_install_status'
   set_fact:
     nerdfonts_install_statuses: "{{ nerdfonts_exists|map(attribute='installed')|list }}"
 
-- name: '[Debian] Define nerdfonts_install_cmd'
+- name: '[Linux] Define nerdfonts_install_cmd'
   set_fact:
     nerdfonts_install_cmd: "rsync -av --no-owner --exclude='*[Ww]indows*' --exclude='*.md'{% if not nerdfonts_mono %} --exclude='*Mono.ttf'{% endif %}"
-  tags:
-    - nerdfonts
 
-- name: '[Debian] Clone the nerdfonts repo'
+- name: '[Linux] Clone the nerdfonts repo'
   git:
     repo: https://github.com/ryanoasis/nerd-fonts.git
     dest: "{{ nerdfonts_git_dest }}"
@@ -54,19 +44,14 @@
   when: false in nerdfonts_install_statuses
   become: yes
   become_user: root
-  tags:
-    - nerdfonts
 
-- name: "[Debian] Install NerdFonts"
+- name: "[Linux] Install NerdFonts"
   command: "{{ nerdfonts_install_cmd }} /tmp/nerd_fonts/patched-fonts/{{ item.fontname }} {{ nerdfonts_install_dir }}"
   become: yes
   become_user: "{{ nerdfonts_user  }}"
   register: nerdfonts_installation
-  notify: '[Debian] Update font cache'
+  notify: '[Linux] Update font cache'
   when:
     - not item.installed
   with_items:
     - "{{ nerdfonts_exists }}"
-  tags:
-    - nerdfonts
-...

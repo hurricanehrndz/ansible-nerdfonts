@@ -1,8 +1,22 @@
 ---
 # tasks file for ansible-nerdfonts
+- name: "[main] Include {{ ansible_os_family }}-specific vars"
+  include_vars: '{{ item }}'
+  with_first_found:
+    - '{{ ansible_os_family }}.yml'
+    - default.yml
 
-- name: "[main] Include {{ ansible_os_family }}-specific tasks"
-  include_tasks: "{{ ansible_os_family }}.yml"
-  tags:
-    - nerdfonts
-...
+- name: '[main] Install system dependencies'
+  include_tasks: dependencies.yml
+
+# include tasks to loop
+- name: '[main] Install fonts for nerdfonts_users'
+  include_tasks: install-fonts.yml
+  loop: "{{ nerdfonts_users }}"
+  loop_control:
+    loop_var: nerdfonts_user
+
+- name: '[main] Remove nerdfonts repo'
+  file:
+    path: "{{ nerdfonts_git_dest }}"
+    state: absent
