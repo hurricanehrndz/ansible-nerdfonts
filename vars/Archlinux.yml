@@ -1,0 +1,5 @@
+---
+nerdfonts_dependencies:
+  - fontconfig
+  - git
+  - rsync
