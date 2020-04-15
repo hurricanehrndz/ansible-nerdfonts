@@ -46,7 +46,7 @@
   become_user: root
 
 - name: "[Linux] Install NerdFonts"
-  command: "{{ nerdfonts_install_cmd }} /tmp/nerd_fonts/patched-fonts/{{ item.fontname }} {{ nerdfonts_install_dir }}"
+  command: "{{ nerdfonts_install_cmd }} {{ nerdfonts_git_dest }}/patched-fonts/{{ item.fontname }} {{ nerdfonts_install_dir }}"
   become: yes
   become_user: "{{ nerdfonts_user  }}"
   register: nerdfonts_installation
