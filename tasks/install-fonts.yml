@@ -33,7 +33,7 @@
 
 - name: '[Linux] Define nerdfonts_install_cmd'
   set_fact:
-    nerdfonts_install_cmd: "rsync -av --no-owner --exclude='*[Ww]indows*' --exclude='*.md'{% if not nerdfonts_mono %} --exclude='*Mono.ttf'{% endif %}"
+    nerdfonts_install_cmd: "rsync -av --no-owner --prune-empty-dirs --include='*/' --include='*.ttf' --exclude='*'"
 
 - name: '[Linux] Clone the nerdfonts repo'
   git:
@@ -55,3 +55,14 @@
     - not item.installed
   with_items:
     - "{{ nerdfonts_exists }}"
+
+- name: "[Linux] Remove Unwanted fonts"
+  command: find {{ nerdfonts_install_dir }} -name '*indows*.ttf' -exec rm {} \+
+  become: yes
+  become_user: "{{ nerdfonts_user  }}"
+
+- name: "[Linux] Remove mono fonts"
+  command: find {{ nerdfonts_install_dir }} -name '*Mono.ttf' -exec rm {} \+
+  become: yes
+  become_user: "{{ nerdfonts_user  }}"
+  when: not nerdfonts_mono
