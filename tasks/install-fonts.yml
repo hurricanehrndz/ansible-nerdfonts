@@ -58,11 +58,15 @@
 
 - name: "[Linux] Remove Unwanted fonts"
   command: find {{ nerdfonts_install_dir }} -name '*indows*.ttf' -exec rm {} \+
+  register: remove_windows_fonts
+  changed_when: remove_windows_fonts.stdout | length > 0
   become: yes
   become_user: "{{ nerdfonts_user  }}"
 
 - name: "[Linux] Remove mono fonts"
   command: find {{ nerdfonts_install_dir }} -name '*Mono.ttf' -exec rm {} \+
+  register: remove_mono_fonts
+  changed_when: remove_mono_fonts.stdout | length > 0
   become: yes
   become_user: "{{ nerdfonts_user  }}"
   when: not nerdfonts_mono
