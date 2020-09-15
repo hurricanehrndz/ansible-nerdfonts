@@ -1,4 +1,27 @@
 ---
+- name: '[Linux] Detect checkout type'
+  shell: command -v svn
+  register: svn_check
+  ignore_errors: yes
+  when:
+    - nerdfonts_checkout == 'auto'
+  become: yes
+  become_user: root
+
+- name: '[Linux] Use git clone to checkout'
+  set_fact:
+    nerdfonts_checkout: git
+  when:
+    - nerdfonts_checkout == 'auto'
+    - svn_check.failed
+
+- name: '[Linux] Use svn export to checkout'
+  set_fact:
+    nerdfonts_checkout: svn
+  when:
+    - nerdfonts_checkout == 'auto'
+    - not svn_check.failed
+
 - name: '[Linux] Export files from the nerdfonts repo'
   subversion:
     repo: "https://github.com/ryanoasis/nerd-fonts.git/trunk/patched-fonts/{{ item.fontname }}"
@@ -23,4 +46,3 @@
     - false in nerdfonts_install_statuses
   become: yes
   become_user: root
-

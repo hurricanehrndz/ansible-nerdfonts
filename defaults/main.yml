@@ -3,7 +3,7 @@
 nerdfonts_users: [ root ]
 nerdfonts_git_dest: "/tmp/nerd_fonts"
 nerdfonts_mono: no  # yes | no -- install mono variant of the font
-nerdfonts_checkout: git  # svn | git -- svn export or git clone
+nerdfonts_checkout: auto  # svn | git | auto -- svn export, git clone, or auto-detect
 
 nerdfonts_fonts:
 #  - fontname: '3270'
