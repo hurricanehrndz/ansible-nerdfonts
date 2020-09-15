@@ -21,11 +21,12 @@ NOTE:
 Role Variables
 --------------
 
-| Variable              | Description                             | Default                                      |
-|-----------------------|-----------------------------------------|----------------------------------------------|
-| **nerdfonts_fonts[]** | List of nerdfonts to be installed       | see [`defaults/main.yml`](defaults/main.yml) |
-| **nerdfonts_mono**    | Install mono font variation             | `no`                                         |
-| **nerdfonts_users[]** | List of users nerdfonts to be installed | see [`defaults/main.yml`](defaults/main.yml) |
+| Variable               | Description                                        | Default                                      |
+|------------------------|----------------------------------------------------|----------------------------------------------|
+| **nerdfonts_fonts[]**  | List of nerdfonts to be installed                  | see [`defaults/main.yml`](defaults/main.yml) |
+| **nerdfonts_mono**     | Install mono font variation                        | `no`                                         |
+| **nerdfonts_users[]**  | List of users nerdfonts to be installed            | see [`defaults/main.yml`](defaults/main.yml) |
+| **nerdfonts_checkout** | Checkout nerdfonts via `svn` export or `git` clone | see [`defaults/main.yml`](defaults/main.yml) | 
 
 Dependencies
 ------------
