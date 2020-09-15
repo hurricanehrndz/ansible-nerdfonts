@@ -1,11 +1,26 @@
 ---
+- name: '[Linux] Export files from the nerdfonts repo'
+  subversion:
+    repo: "https://github.com/ryanoasis/nerd-fonts.git/trunk/patched-fonts/{{ item.fontname }}"
+    dest: "{{ nerdfonts_git_dest }}/patched-fonts/{{ item.fontname }}"
+    export: yes
+  when:
+    - nerdfonts_checkout == 'svn'
+    - not item.installed
+  with_items:
+    - "{{ nerdfonts_exists }}"
+  become: yes
+  become_user: root
+
 - name: '[Linux] Clone the nerdfonts repo'
   git:
     repo: https://github.com/ryanoasis/nerd-fonts.git
     dest: "{{ nerdfonts_git_dest }}"
     depth: 1
     version: master
-  when: false in nerdfonts_install_statuses
+  when: 
+    - nerdfonts_checkout == 'git'
+    - false in nerdfonts_install_statuses
   become: yes
   become_user: root
 
