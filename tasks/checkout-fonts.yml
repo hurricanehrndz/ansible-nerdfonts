@@ -1,0 +1,11 @@
+---
+- name: '[Linux] Clone the nerdfonts repo'
+  git:
+    repo: https://github.com/ryanoasis/nerd-fonts.git
+    dest: "{{ nerdfonts_git_dest }}"
+    depth: 1
+    version: master
+  when: false in nerdfonts_install_statuses
+  become: yes
+  become_user: root
+
