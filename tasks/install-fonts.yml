@@ -35,15 +35,8 @@
   set_fact:
     nerdfonts_install_cmd: "rsync -av --no-owner --prune-empty-dirs --include='*/' --include='*.ttf' --exclude='*'"
 
-- name: '[Linux] Clone the nerdfonts repo'
-  git:
-    repo: https://github.com/ryanoasis/nerd-fonts.git
-    dest: "{{ nerdfonts_git_dest }}"
-    depth: 1
-    version: master
-  when: false in nerdfonts_install_statuses
-  become: yes
-  become_user: root
+- name: '[Linux] Checkout nerdfonts'
+  include_tasks: checkout-fonts.yml
 
 - name: "[Linux] Install NerdFonts"
   command: "{{ nerdfonts_install_cmd }} {{ nerdfonts_git_dest }}/patched-fonts/{{ item.fontname }} {{ nerdfonts_install_dir }}"
