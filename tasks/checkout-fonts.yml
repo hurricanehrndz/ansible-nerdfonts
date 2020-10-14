@@ -41,7 +41,7 @@
     dest: "{{ nerdfonts_git_dest }}"
     depth: 1
     version: master
-  when: 
+  when:
     - nerdfonts_checkout == 'git'
     - false in nerdfonts_install_statuses
   become: yes
