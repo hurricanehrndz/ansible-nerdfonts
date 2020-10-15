@@ -7,7 +7,7 @@ matrix:
       env:
         - ANSIBLE='ansible>=2.8'
         - MOLECULE_SCENARIO="default"
-        - MOLECULE_DISTRIBUTION="ubuntu18"
+        - MOLECULE_DISTRIBUTION="ubuntu20"
       services: docker
       language: python
       python: "3.8"
