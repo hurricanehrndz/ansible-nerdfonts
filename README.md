@@ -1,14 +1,12 @@
-Ansible role: nerdfonts
-=========
+# Ansible role: nerdfonts
 
-[![Build Status][travis-badge]][travis-link]
+[![Build Status][action-badge]][action-link]
 [![Galaxy Role][role-badge]][galaxy-link]
 [![MIT licensed][mit-badge]][mit-link]
 
 Ansible role for [NerdFonts][nerdfonts] ([on GitHub][nf-git]) installation.
 
-Requirements
-------------
+## Requirements
 
 One of the following OS (or deriviatives):
 
@@ -18,27 +16,24 @@ NOTE:
 
 - Role requires Fact Gathering by ansible!
 
-Role Variables
---------------
+## Role Variables
 
-| Variable               | Description                                        | Default                                      |
-|------------------------|----------------------------------------------------|----------------------------------------------|
-| **nerdfonts_fonts[]**  | List of nerdfonts to be installed                  | see [`defaults/main.yml`](defaults/main.yml) |
-| **nerdfonts_mono**     | Install mono font variation                        | `no`                                         |
-| **nerdfonts_users[]**  | List of users nerdfonts to be installed            | see [`defaults/main.yml`](defaults/main.yml) |
+| Variable              | Description                             | Default                                      |
+| --------------------- | --------------------------------------- | -------------------------------------------- |
+| **nerdfonts_fonts[]** | List of nerdfonts to be installed       | see [`defaults/main.yml`](defaults/main.yml) |
+| **nerdfonts_mono**    | Install mono font variation             | `no`                                         |
+| **nerdfonts_users[]** | List of users nerdfonts to be installed | see [`defaults/main.yml`](defaults/main.yml) |
 
-Dependencies
-------------
+## Dependencies
 
 None
 
-Example Playbook
-----------------
+## Example Playbook
 
 ```yaml
 - hosts: all
   vars:
-    nerdfonts_users: [ testuser ]
+    nerdfonts_users: [testuser]
   tasks:
     - name: Add testuser
       user:
@@ -50,13 +45,11 @@ Example Playbook
         name: ansible-nerdfonts
 ```
 
-License
--------
+## License
 
 [MIT][mit-link]
 
-Author Information
-------------------
+## Author Information
 
 Carlos Hernandez | [e-mail](mailto:hurricanehrndz@techbyte.ca)
 
@@ -67,5 +60,5 @@ Carlos Hernandez | [e-mail](mailto:hurricanehrndz@techbyte.ca)
 [homebrew]: http://brew.sh/
 [nerdfonts]: https://nerdfonts.com/
 [nf-git]: https://github.com/ryanoasis/nerd-fonts
-[travis-badge]: https://img.shields.io/travis/hurricanehrndz/ansible-nerdfonts/master.svg?style=for-the-badge&logo=travis
-[travis-link]: https://travis-ci.org/hurricanehrndz/ansible-nerdfonts
+[action-badge]: https://img.shields.io/github/workflow/status/hurricanehrndz/ansible-nerdfonts/CI?style=for-the-badge
+[action-link]: https://github.com/hurricanehrndz/ansible-nerdfonts/actions?query=workflow%3ACI
