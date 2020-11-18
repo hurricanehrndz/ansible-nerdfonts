@@ -11,4 +11,4 @@
 
     - name: Run role
       include_role:
-        name: ansible-nerdfonts
+        name: nerdfonts

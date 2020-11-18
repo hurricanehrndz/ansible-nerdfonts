@@ -1,34 +1,31 @@
 ---
-dist: bionic
+dist: focal
 matrix:
   fast_finish: true
   include:
     - os: linux
-      env:
-        - ANSIBLE='ansible>=2.8'
-        - MOLECULE_SCENARIO="default"
-        - MOLECULE_DISTRIBUTION="ubuntu20"
-      services: docker
       language: python
-      python: "3.8"
-#    - os: linux
-#      env:
-#        - ANSIBLE='ansible>=2.8'
-#        - MOLECULE_SCENARIO="default"
-#        - MOLECULE_DISTRIBUTION="archlinux"
-#        - MOLECULE_IMAGE="manjarolinux/base:latest"
-#      services: docker
-#      language: python
-#      python: "3.8"
-
+      python: "3.9"
+      addons:
+        snaps:
+          - name: lxd
+            channel: stable
+git:
+  clone: false
 install:
+  - git clone https://github.com/$TRAVIS_REPO_SLUG.git nerdfonts
+  - cd nerdfonts
+  - sudo /snap/bin/lxd waitready
+  - sudo /snap/bin/lxd init --auto
+  - sudo chgrp travis /var/snap/lxd/common/lxd/unix.socket
   - pip3 install -U pip
-  - pip3 install "$ANSIBLE" testinfra molecule docker flake8 ansible-lint yamllint
+  - pip3 install -r requirements.txt
 script:
   - python --version
   - molecule --version
   - ansible --version
-  - molecule test -s $MOLECULE_SCENARIO
+  - ansible-lint --version
+  - molecule test
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
